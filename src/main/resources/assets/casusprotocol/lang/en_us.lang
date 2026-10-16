@@ -1,0 +1,51 @@
+# Configs
+config.casusprotocol.item_settings=Item Settings
+config.casusprotocol.protocol_settings=Protocol Settings
+
+config.casusprotocol.burning=Burning
+config.casusprotocol.creeper=Creeper
+config.casusprotocol.cure_villager=Cure villager
+config.casusprotocol.dragon_breath=Dragon's Breath
+config.casusprotocol.drowning=Drowning
+config.casusprotocol.escape=Escape
+config.casusprotocol.exposure=Exposure
+config.casusprotocol.falling=Falling
+config.casusprotocol.guardian_beam=Guardian Beam
+config.casusprotocol.harmful_effects=Harmful Effects
+config.casusprotocol.lava=Lava
+config.casusprotocol.restore_aura_na=Restore Aura
+config.casusprotocol.restore_ember_embers=Restore Ember
+config.casusprotocol.restore_health=Restore Health
+config.casusprotocol.restore_hunger=Restore Hunger
+config.casusprotocol.restore_mana_bot=Restore Mana
+config.casusprotocol.restore_thirst=Restore Thirst
+config.casusprotocol.restore_vis_tc=Restore Vis
+
+# Chat
+chat.casusprotocol:burning=Protocol: Extinguish Flames
+chat.casusprotocol:creeper=Protocol: Animated Shrubbery
+chat.casusprotocol:cure_villager=Protocol: Cure Infected Flesh
+chat.casusprotocol:dragon_breath=Protocol: Hazardous Fumes
+chat.casusprotocol:drowning=Protocol: Oxygen Supply
+chat.casusprotocol:escape=Protocol: Escape Routine
+chat.casusprotocol:exposure=Protocol: Equalize Temperature
+chat.casusprotocol:falling=Protocol: Fall Protection
+chat.casusprotocol:guardian_beam=Protocol: Aquatic Jets
+chat.casusprotocol:lava=Protocol: Extreme Heat
+chat.casusprotocol:restore_aura_na=Protocol: Emergency Aura
+chat.casusprotocol:restore_ember=Protocol: Emergency Ember
+chat.casusprotocol:restore_health=Protocol: Cure Wounds
+chat.casusprotocol:restore_hunger=Protocol: Satiation
+chat.casusprotocol:restore_mana_bot=Protocol: Emergency Mana
+chat.casusprotocol:restore_thirst=Protocol: Hydrate
+chat.casusprotocol:restore_vis=Protocol: Emergency Vis
+
+# Items
+item.casusprotocol:casus_protocol.name=Casus Protocol
+
+# Tooltips
+tooltip.casusprotocol:cooldown=Cooldown: %s
+tooltip.casusprotocol:energy=Energy: %d/%d RF
+tooltip.casusprotocol:extinguish=Flame Suppressing
+tooltip.casusprotocol:immunity=%s Immunity
+tooltip.casusprotocol:underwater_breathing=Underwater Breathing

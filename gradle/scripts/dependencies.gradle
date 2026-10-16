@@ -1,0 +1,99 @@
+apply from: 'gradle/scripts/helpers.gradle'
+
+repositories {
+    // Other repositories described by default:
+    // CleanroomMC: https://maven.cleanroommc.com
+    exclusiveContent {
+        forRepository {
+            maven {
+                name 'CleanroomMC CurseMaven'
+                url 'https://curse.cleanroommc.com'
+            }
+        }
+        filter {
+            includeGroup 'curse.maven'
+        }
+    }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name 'Modrinth'
+                url 'https://api.modrinth.com/maven'
+            }
+        }
+        filter {
+            includeGroup 'maven.modrinth'
+        }
+    }
+    mavenLocal() // Must be last for caching to work
+}
+
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
+dependencies {
+    // Include StripLatestForgeRequirements by default for the dev env, saves everyone a hassle
+    runtimeOnly 'com.cleanroommc:strip-latest-forge-requirements:1.0'
+    // Include OSXNarratorBlocker by default for the dev env, for M1+ Macs
+    runtimeOnly 'com.cleanroommc:osxnarratorblocker:1.0'
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+
+    runtimeOnly rfg.deobf("curse.maven:had-enough-items-557549:4543375")
+    implementation rfg.deobf("curse.maven:baubles-227083:2518667")
+    implementation rfg.deobf("curse.maven:expanded-events-1396395:8204032")
+
+    def modMap = [:]
+    def loadMap = [:]
+    modMap.put(["curse.maven:botania-225643:3330934"], project.use_botania)
+    modMap.put(["curse.maven:embers-rekindled-300777:3695248"], project.use_embers)
+    modMap.put(["curse.maven:immersive-engineering-231951:2974106"], project.use_immersiveengineering)
+    modMap.put(["curse.maven:natures-aura-306626:2882138", "curse.maven:patchouli-306770:3162874-"], project.use_naturesaura)
+    modMap.put(["curse.maven:simpledifficulty-360779:3613814"], project.use_simpledifficulty)
+    modMap.put(["curse.maven:survival-tools-1120531:9203000"], project.use_survivaltools)
+    modMap.put(["curse.maven:thaumcraft-223628:2629023"], project.use_thaumcraft)
+    modMap.put(["curse.maven:tough-as-nails-246391:2639903"], project.use_toughasnails)
+    modMap.put(["curse.maven:waterskin-simple-difficulty-619774:3776463", "curse.maven:simpledifficulty-360779:3613814"], project.use_waterskinSD)
+    modMap.put(["curse.maven:waterskin-441560:3191584", "curse.maven:tough-as-nails-246391:2639903"], project.use_waterskinTAN)
+
+
+    modMap.each{mods, load -> {
+        boolean loadFlag = load.toBoolean()
+        mods.each{mod ->
+            if(!loadMap.containsKey(mod)) {
+                loadMap.put(mod,loadFlag)
+            } else {
+                if(loadFlag && !loadMap[mod]) {
+                    loadMap[mod] = loadFlag
+                }
+            }
+        }
+    }}
+
+    loadMap.each{maven,load -> {
+        if(load) {
+            implementation(rfg.deobf(maven))
+        } else {
+            compileOnly(rfg.deobf(maven))
+        }
+    }}
+}
+
+// Need reobfJar to use uber jars, so dependencies that are shaded in are present
+// Only redirect reobfJar through shadowJar when there's actually something to shade
+if (!configurations.shade.dependencies.empty) {
+    tasks.named('reobfJar').configure {
+        inputJar.set(tasks.named('shadowJar').flatMap({ it.archiveFile }))
+    }
+}
+
+// By default, it will use a "uberdev" suffix, and only pack shade configuration dependencies
+// Uberdev: dev jar w/ dependencies, NOT a reobfuscated artifact!
+// The end result (reobfJar) will have a non-suffixed name, as unlike normal shading envs, reobfJar is the end task
+tasks.shadowJar {
+    // Shadow wires shadowJar into the assemble task, so it runs even when nothing is shaded
+    enabled = !project.configurations.shade.dependencies.empty
+    archiveClassifier = 'uberdev'
+    configurations = [ project.configurations.shade ]
+}
