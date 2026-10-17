@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "result": {
+    "item": "casusprotocol:casus_protocol"
+  },
+  "pattern": [
+    "GGG",
+    "DLD",
+    "GRG"
+  ],
+  "key": {
+    "G": {
+      "type": "forge:ore_dict" ,
+      "ore": "ingotGold"
+    } ,
+    "D": {
+      "type": "forge:ore_dict" ,
+      "ore": "gemDiamond"
+    },
+    "L": {
+      "type": "forge:ore_dict" ,
+      "ore": "blockLapis"
+    } ,
+    "R": {
+      "type": "forge:ore_dict",
+      "ore": "blockRedstone"
+    }
+  }
+}
