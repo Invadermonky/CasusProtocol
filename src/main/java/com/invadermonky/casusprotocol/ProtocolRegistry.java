@@ -60,7 +60,6 @@ public class ProtocolRegistry {
         registerProtocol(new ProtocolRestoreHealth());
         registerProtocol(new ProtocolRestoreHealth());
         registerProtocol(new ProtocolRestoreHunger());
-        registerProtocol(new ProtocolLava());
         registerProtocol(new ProtocolRestoreMana());
         registerProtocol(new ProtocolRestoreThirst());
         registerProtocol(new ProtocolRestoreVis());

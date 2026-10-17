@@ -64,9 +64,6 @@ public class ConfigHandlerCP {
         @Config.LangKey("config.casusprotocol.harmful_effects")
         @Config.Comment("Removes specific harmful potion effects and grants immunity to that effect for a short duration.")
         public HarmfulEffectProtocolConfig harmfulEffect = new HarmfulEffectProtocolConfig();
-        @Config.LangKey("config.casusprotocol.lava")
-        @Config.Comment("Negates one instance of lava damage and grants Fire Resistance for a short duration.")
-        public DurationProtocolConfig lava = new DurationProtocolConfig();
         @Config.LangKey("config.casusprotocol.restore_aura_na")
         @Config.Comment("Requires Nature's Aura. Attempts to fill an empty Aura Trove in the player's inventory with a small amount of aura.")
         public GenericProtocolConfig restoreAuraNA = new GenericProtocolConfig();

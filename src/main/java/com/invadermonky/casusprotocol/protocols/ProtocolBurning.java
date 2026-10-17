@@ -5,12 +5,13 @@ import com.google.common.collect.Multimap;
 import com.invadermonky.casusprotocol.CasusProtocol;
 import com.invadermonky.casusprotocol.utils.ConfigHandlerCP;
 import com.invadermonky.casusprotocol.utils.ProtocolHelper;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -28,18 +29,16 @@ public class ProtocolBurning implements IProtocol {
     public void onPlayerBurning(LivingHurtEvent event) {
         if(event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-            if((event.getSource() == DamageSource.ON_FIRE || event.getSource() == DamageSource.IN_FIRE) && !player.isInsideOfMaterial(Material.LAVA)) {
+
+            if(event.getSource() == DamageSource.ON_FIRE || event.getSource() == DamageSource.IN_FIRE || event.getSource() == DamageSource.LAVA) {
                 ItemStack stack = ProtocolHelper.getProtocolItem(player);
                 if (stack.isEmpty()) {
                     return;
                 }
 
-                if(ProtocolHelper.isProtocolActive(player, stack, this)) {
-                    player.extinguish();
-                    event.setAmount(0);
-                    event.setCanceled(true);
-                } else if(ProtocolHelper.canProtocolActivate(player, stack, this)) {
+                if(ProtocolHelper.canProtocolActivate(player, stack, this) && MobEffects.FIRE_RESISTANCE != null) {
                     ProtocolHelper.setProtocolActivated(player, stack, this);
+                    player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, this.getProtocolDuration(player, stack), 0, true, false));
                     player.extinguish();
                     event.setAmount(0);
                     event.setCanceled(true);
