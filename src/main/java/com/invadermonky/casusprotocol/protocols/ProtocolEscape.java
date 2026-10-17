@@ -19,6 +19,8 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 import java.util.UUID;
@@ -75,6 +77,7 @@ public class ProtocolEscape implements IProtocol {
         multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), MOVEMENT_SPEED);
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
 

@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import com.invadermonky.casusprotocol.CasusProtocol;
 import com.invadermonky.casusprotocol.utils.ConfigHandlerCP;
 import com.invadermonky.casusprotocol.utils.ProtocolHelper;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,6 +17,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class ProtocolBurning implements IProtocol {
     public void onPlayerBurning(LivingHurtEvent event) {
         if(event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-            if(event.getSource() == DamageSource.ON_FIRE || event.getSource() == DamageSource.IN_FIRE) {
+            if((event.getSource() == DamageSource.ON_FIRE || event.getSource() == DamageSource.IN_FIRE) && !player.isInsideOfMaterial(Material.LAVA)) {
                 ItemStack stack = ProtocolHelper.getProtocolItem(player);
                 if (stack.isEmpty()) {
                     return;
@@ -78,6 +81,7 @@ public class ProtocolBurning implements IProtocol {
     @Override
     public void getAttributeModifiers(Multimap<String, AttributeModifier> multimap, BaubleType type, ItemStack stack) {}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(TextFormatting.AQUA + I18n.format("tooltip.casusprotocol:extinguish"));

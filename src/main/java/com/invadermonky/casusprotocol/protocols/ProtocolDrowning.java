@@ -9,7 +9,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +16,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -37,10 +38,6 @@ public class ProtocolDrowning implements IProtocol {
                 player.setAir(300);
                 event.setAmount(0);
                 event.setCanceled(true);
-
-                if(player.world.isRemote) {
-                    player.playSound(SoundEvents.ENTITY_GENERIC_SPLASH, 1.0f, 1.0f);
-                }
             }
         }
     }
@@ -78,6 +75,7 @@ public class ProtocolDrowning implements IProtocol {
     @Override
     public void getAttributeModifiers(Multimap<String, AttributeModifier> multimap, BaubleType type, ItemStack stack) {}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(TextFormatting.AQUA + I18n.format("tooltip.casusprotocol:underwater_breathing"));

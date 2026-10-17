@@ -8,11 +8,12 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -37,8 +38,6 @@ public class ProtocolCureVillager implements IProtocol {
             if(!entity.isConverting()) {
                 if(!player.world.isRemote) {
                     entity.startConverting(player.getUniqueID(), entity.getRNG().nextInt(2401) + 3600);
-                } else {
-                    player.playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, 1.0f, 1.0f);
                 }
                 break;
             }
@@ -61,6 +60,7 @@ public class ProtocolCureVillager implements IProtocol {
     @Override
     public void getAttributeModifiers(Multimap<String, AttributeModifier> multimap, BaubleType type, ItemStack stack) {}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
 

@@ -7,10 +7,11 @@ import com.invadermonky.casusprotocol.utils.ConfigHandlerCP;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -30,9 +31,6 @@ public class ProtocolRestoreHealth implements IProtocol {
     @Override
     public void activateProtocol(EntityPlayer player, ItemStack stack) {
         player.heal(4.0f);
-        if(player.world.isRemote) {
-            player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
-        }
     }
 
     @Override
@@ -51,6 +49,7 @@ public class ProtocolRestoreHealth implements IProtocol {
     @Override
     public void getAttributeModifiers(Multimap<String, AttributeModifier> multimap, BaubleType type, ItemStack stack) {}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
 

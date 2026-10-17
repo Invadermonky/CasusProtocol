@@ -10,7 +10,6 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -18,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ProtocolLava implements IProtocol {
     public void onLivingHurt(LivingHurtEvent event) {
         if(event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-            if(event.getSource() == DamageSource.LAVA && player.isInsideOfMaterial(Material.LAVA)) {
+            if(event.getSource() == DamageSource.IN_FIRE && event.getSource() == DamageSource.LAVA && player.isInsideOfMaterial(Material.LAVA)) {
                 ItemStack stack = ProtocolHelper.getProtocolItem(player);
                 if (stack.isEmpty() || !ProtocolHelper.canProtocolActivate(player, stack, this) || MobEffects.FIRE_RESISTANCE == null) {
                     return;
@@ -36,9 +37,6 @@ public class ProtocolLava implements IProtocol {
 
                 ProtocolHelper.setProtocolActivated(player, stack, this);
                 player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, this.getProtocolDuration(player, stack), 0, true, false));
-                if(player.world.isRemote) {
-                    player.playSound(SoundEvents.ENTITY_SPLASH_POTION_BREAK, 1.0f, 1.0f);
-                }
             }
         }
     }
@@ -72,6 +70,7 @@ public class ProtocolLava implements IProtocol {
     @Override
     public void getAttributeModifiers(Multimap<String, AttributeModifier> multimap, BaubleType type, ItemStack stack) {}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {}
 

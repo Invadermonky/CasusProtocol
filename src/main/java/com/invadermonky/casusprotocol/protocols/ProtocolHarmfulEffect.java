@@ -8,7 +8,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -59,9 +60,6 @@ public class ProtocolHarmfulEffect implements IProtocol {
     @Override
     public void activateProtocol(EntityPlayer player, ItemStack stack) {
         player.removePotionEffect(this.potion);
-        if(player.world.isRemote) {
-            player.playSound(SoundEvents.ENTITY_SPLASH_POTION_BREAK, 1.0f, 1.0f);
-        }
     }
 
     @Override
@@ -84,6 +82,7 @@ public class ProtocolHarmfulEffect implements IProtocol {
     @Override
     public void getAttributeModifiers(Multimap<String, AttributeModifier> multimap, BaubleType type, ItemStack stack) {}
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         tooltip.add(TextFormatting.GREEN + I18n.format("tooltip.casusprotocol:immunity", I18n.format(this.potion.getName())));
