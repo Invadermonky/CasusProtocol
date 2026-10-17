@@ -1,6 +1,7 @@
 package com.invadermonky.casusprotocol.utils;
 
 import com.invadermonky.casusprotocol.CasusProtocol;
+import com.invadermonky.casusprotocol.ProtocolRegistry;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -15,11 +16,10 @@ public class ConfigHandlerCP {
     public static final ProtocolSettings protocolSettings = new ProtocolSettings();
 
     public static class ItemSettings {
-        @Config.RequiresMcRestart
-        @Config.Name("Use RF")
+        @Config.Name("Use Redstone Flux")
         @Config.Comment({
                 "The Casus Protocol item will use RF whenever a protocol activates. Individual protocol costs can be",
-                "set in their configuration settings."
+                "set in their respective configuration settings."
         })
         public boolean useRF = true;
 
@@ -100,7 +100,6 @@ public class ConfigHandlerCP {
             @Config.Comment("The duration, in ticks, this protocol will last after activating.")
             public int duration = 200;
 
-            @Config.RequiresMcRestart
             @Config.Name("Enable Protocol")
             @Config.Comment("Enables this protocol effect.")
             public boolean enable = true;
@@ -117,7 +116,6 @@ public class ConfigHandlerCP {
             @Config.Comment("The cooldown incurred by the Casus Protocol after removing a harmful effects.")
             public int cooldown = 3600;
 
-            @Config.RequiresMcRestart
             @Config.Name("Enable Protocol")
             @Config.Comment("Enables this protocol effect.")
             public boolean enable = true;
@@ -144,7 +142,6 @@ public class ConfigHandlerCP {
             @Config.Comment("The energy cost, in RF, this protocol will consume when activated.")
             public int energyCost = 2000;
 
-            @Config.RequiresMcRestart
             @Config.Name("Protocol Effects")
             @Config.Comment({
                     "The registry Ids of harmful potion effects that will be removed by this protocol. Each entry is its",
@@ -163,6 +160,7 @@ public class ConfigHandlerCP {
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
             if(event.getModID().equals(CasusProtocol.MOD_ID)) {
                 ConfigManager.sync(CasusProtocol.MOD_ID, Config.Type.INSTANCE);
+                ProtocolRegistry.initProtocols();
             }
         }
     }

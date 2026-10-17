@@ -19,10 +19,15 @@ public class ProtocolRegistry {
     public static Map<ResourceLocation, IProtocol> protocols = new HashMap<>();
 
     public static void registerProtocol(IProtocol protocol) {
-        if(protocol != null && protocol.isEnabled()) {
+        if(protocol.isEnabled()) {
             protocols.put(protocol.getProtocolName(), protocol);
             if(protocol.hasEvent()) {
                 MinecraftForge.EVENT_BUS.register(protocol);
+            }
+        } else {
+            protocols.remove(protocol.getProtocolName());
+            if(protocol.hasEvent()) {
+                MinecraftForge.EVENT_BUS.unregister(protocol);
             }
         }
     }
